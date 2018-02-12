@@ -4,7 +4,7 @@ A quick little script I threw together to pull summary data from the Seattle RRG
 
 Installation:
 1. Create a [virtualenv](https://virtualenv.pypa.io/en/stable/userguide/#usage)
-2. `pip install -r reqirements.txt`
+2. `pip install -r requirements.txt`
 
 Usage: `python rrg_blog_stats.py <posts_dir> <output_file_name>`
     
