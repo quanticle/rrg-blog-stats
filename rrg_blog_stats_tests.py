@@ -9,7 +9,7 @@ class PostAnalyzerTests(unittest.TestCase):
     def testDateParsing_ValidDate(self):
         post_analyzer = self.StubbedPostAnalyzer()
         post_analyzer.lines.append('title: "December 05 2016 RRG Notes"')
-        meeting_date = post_analyzer.get_date()
+        meeting_date = post_analyzer.get_meeting_date()
         self.assertEqual(meeting_date.year, 2016)
         self.assertEqual(meeting_date.month, 12)
         self.assertEqual(meeting_date.day, 5)
@@ -17,7 +17,7 @@ class PostAnalyzerTests(unittest.TestCase):
     def testDateParsing_ValidSingleDigitDate(self):
         post_analyzer = self.StubbedPostAnalyzer()
         post_analyzer.lines.append('title: "December 1 2016 RRG Notes"')
-        meeting_date = post_analyzer.get_date()
+        meeting_date = post_analyzer.get_meeting_date()
         self.assertEqual(meeting_date.year, 2016)
         self.assertEqual(meeting_date.month, 12)
         self.assertEqual(meeting_date.day, 1)
@@ -25,7 +25,7 @@ class PostAnalyzerTests(unittest.TestCase):
     def testDateParsing_InvalidDate(self):
         post_analyzer = self.StubbedPostAnalyzer()
         post_analyzer.lines.append('title: "This is not a date"')
-        meeting_date = post_analyzer.get_date()
+        meeting_date = post_analyzer.get_meeting_date()
         self.assertEqual(meeting_date, None)
 
     def testGetArticleTitles_single_h3_title(self):
@@ -72,6 +72,20 @@ class PostAnalyzerTests(unittest.TestCase):
         self.assertEqual(article_titles[0][1], "https://equilibriabook.com/living-in-an-inadequate-world/")
         self.assertEqual(article_titles[1][0], "Blind Empiricism")
         self.assertEqual(article_titles[1][1], "https://equilibriabook.com/blind-empiricism/")
+
+    def testGetPostDate(self):
+        post_analyzer = self.StubbedPostAnalyzer()
+        post_analyzer.lines.append("date: 2017-04-29 18:00 -0700")
+        post_date = post_analyzer.get_post_date()
+        self.assertEqual(post_date.year, 2017)
+        self.assertEqual(post_date.month, 4)
+        self.assertEqual(post_date.day, 29)
+
+    def testGetNotesURL(self):
+        post_analyzer = self.StubbedPostAnalyzer()
+        post_analyzer.lines.append("date: 2017-04-29 18:00 -0700")
+        notes_url = post_analyzer.get_notes_url()
+        self.assertEqual(notes_url, "https://palegreendot.net/rrg_notes/2017/04/29/rrg-reading-notes.html")
 
     
 
