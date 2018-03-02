@@ -1,3 +1,4 @@
+import datetime
 import unittest
 from rrg_blog_stats import PostAnalyzer
 
@@ -80,12 +81,13 @@ class PostAnalyzerTests(unittest.TestCase):
         self.assertEqual(post_date.year, 2017)
         self.assertEqual(post_date.month, 4)
         self.assertEqual(post_date.day, 29)
+        self.assertEqual(post_date.utcoffset(), datetime.timedelta(-1, 61200))
 
     def testGetNotesURL(self):
         post_analyzer = self.StubbedPostAnalyzer()
         post_analyzer.lines.append("date: 2017-04-29 18:00 -0700")
         notes_url = post_analyzer.get_notes_url()
-        self.assertEqual(notes_url, "https://palegreendot.net/rrg_notes/2017/04/29/rrg-reading-notes.html")
+        self.assertEqual(notes_url, "https://palegreendot.net/rrg_notes/2017/04/30/rrg-reading-notes.html")
 
     
 

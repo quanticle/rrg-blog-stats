@@ -34,7 +34,7 @@ class PostAnalyzer:
     def get_post_date(self):
         """Get the actual post date, needed to construct the link to the RRG Reading Notes page"""
         
-        date_regex = re.compile(r'^date: (\d{4}-\d{2}-\d{2})')
+        date_regex = re.compile(r'^date: (.*)')
         for line in self.lines:
             match = date_regex.match(line)
             if match:
@@ -43,9 +43,9 @@ class PostAnalyzer:
         return None #Same justification as above
 
     def get_notes_url(self):
-        post_date = self.get_post_date()
+        post_date = self.get_post_date().utctimetuple()
         return "https://palegreendot.net/rrg_notes/{year:04}/{month:02}/{day:02}/rrg-reading-notes.html".format(
-            year=post_date.year, month=post_date.month, day=post_date.day)
+            year=post_date.tm_year, month=post_date.tm_mon, day=post_date.tm_mday)
 
     def get_article_titles_and_urls(self):
         article_title_and_url_regex = re.compile(r'^#+ \[(.*)\]\((.*)\)')
